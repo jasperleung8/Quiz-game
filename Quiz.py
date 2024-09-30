@@ -41,3 +41,51 @@ def draw():
     screen.draw.filled_rect(Question_box,"dark yellow")
     screen.draw.filled_rect(Timer_box,"orange")
     screen.draw.filled_rect(Skip_box,"yellow")
+
+    for answer_box in answer_boxes :
+        screen.draw.filled_rect(answer_box,"dark yellow")
+
+    title_message = "Welcome to Quiz game !   "
+    title_message = title_message + f"You're on question {Question_index} of {Question_count}"
+
+    screen.draw.textbox(title_message,Title_box,color = "black")
+    screen.draw.textbox(
+        str(time_left),Timer_box,
+        color = "black",shadow = (0.5,0.5),
+        scolor = "gray"
+    )
+    screen.draw.textbox(
+        "Skip",skip_box,
+        color = "black",angle = 90
+    )
+    screen.draw.textbox(
+        question[0].strip(),Question_box,
+        color = "black",shadow = (0.5,0.5),
+        scolor = "gray"
+    )
+
+    index = 1
+    for answer_box in answer_boxes:
+        screen.draw.textbox(question[index].strip(),answer_box,color = "black")
+        index = index + 1
+
+def update():
+    move_title()
+
+def move_title():
+    Title_box.x = Title_box.x - 2
+    if title_box.right < 0 :
+        Title_box.left = WIDTH
+
+def read_question_file():
+    global Question_count,Questions
+    q_file = open(question_file_name,"r")
+    for question in q_file :
+        Questions.append(question)
+        Question_count = Question_count + 1
+    q_file.close()
+
+def read_next_question():
+    global Question_index
+    Question_index = Question_index + 1
+    return questions.pop(0.split(","))
